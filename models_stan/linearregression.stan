@@ -12,3 +12,11 @@ parameters {
 model {
   y ~ normal(x * beta + alpha, sigma);  // likelihood
 }
+generated quantities {
+  array[N] real log_lik;
+  array[N] real y_hat;
+  for (j in 1:N) {
+    log_lik[j] = normal_lpdf(y[j] | x[j] * beta + alpha, sigma);
+    y_hat[j] = normal_rng(x[j] * beta + alpha, sigma);
+  }
+}
