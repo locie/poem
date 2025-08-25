@@ -27,4 +27,3 @@ dependencies:
   - wheel=0.45.1=py313h06a4308_0
   - xz=5.6.4=h5eee18b_1
   - zlib=1.2.13=h5eee18b_1
-prefix: /home/simon/anaconda3/envs/poem
