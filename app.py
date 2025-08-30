@@ -1,25 +1,26 @@
-from dash import Dash, html, dcc, callback, Output, Input
-import plotly.express as px
-import pandas as pd
+from dash import Dash, dcc, html
+from tabs.tab0_home import home_tab_content
+from tabs.tab1_data import data_tab_content
+from tabs.tab2_model import model_tab_content
+from tabs.tab3_train import train_tab_content
+from tabs.tab4_post import post_tab_content
 
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
+app = Dash(__name__)
 
-app = Dash()
-
-# Requires Dash 2.17.0 or later
-app.layout = [
-    html.H1(children='Title of Dash App', style={'textAlign':'center'}),
-    dcc.Dropdown(df.country.unique(), 'Canada', id='dropdown-selection'),
-    dcc.Graph(id='graph-content')
-]
-
-@callback(
-    Output('graph-content', 'figure'),
-    Input('dropdown-selection', 'value')
-)
-def update_graph(value):
-    dff = df[df.country==value]
-    return px.line(dff, x='year', y='pop')
+app.layout = html.Div([
+    dcc.Tabs([
+        dcc.Tab(label='Home', children=home_tab_content),
+        dcc.Tab(label='Data', children=data_tab_content),
+        dcc.Tab(label='Modelling', children=model_tab_content),
+        dcc.Tab(label='Training', children=train_tab_content),
+        dcc.Tab(label='Posterior', children=post_tab_content)
+    ])
+])
 
 if __name__ == '__main__':
+    # type this in terminal
+    # conda activate poem
+    # HOST=127.0.0.1 (ou 0.0.0.0)
+    # python app.py
+    # dash tourne alors sur l'adresse affichée
     app.run(debug=True)
